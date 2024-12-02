@@ -25,9 +25,9 @@ class Get{
     }
 
     public function getChefs($id = null){ //functions significant for your own database
-       $sqlString = "SELECT * FROM chefs_tbl"; //select table from where you want to retrieve data.
+       $sqlString = "SELECT * FROM chefs_tbl WHERE isdeleted=0"; //select table from where you want to retrieve data.
         if($id != null){
-            $sqlString .= " WHERE id=" . $id; 
+            $sqlString .= " AND id=" . $id; 
         }
 
        $data = array();
