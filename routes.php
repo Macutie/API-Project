@@ -34,37 +34,42 @@ else{
 switch($_SERVER['REQUEST_METHOD']){
 
     case "GET":
-        switch($request[0]){
+        if($auth->isAuthorized()){
+            switch($request[0]){
 
-            case "students":
-                echo $get->getStudents();
-            break;
-
-            case "classes":
-                echo $get->getClasses();
-            break;
-
-            case "faculty":
-                echo $get->getFaculty();
-            break;
-
-            case "quests":
-                echo $get->getQuests();
-            break;
-            
-            case "chefs":
-                if(count($request) > 1){
-                    echo json_encode($get->getChefs($request[1]));
-                }
-                else{
-                    echo json_encode($get->getChefs());
-                }
-            break;
-            
-            default:
-                http_response_code(401);
-                echo "This is invalid endpoint";
-            break;
+                case "students":
+                    echo $get->getStudents();
+                break;
+    
+                case "classes":
+                    echo $get->getClasses();
+                break;
+    
+                case "faculty":
+                    echo $get->getFaculty();
+                break;
+    
+                case "quests":
+                    echo $get->getQuests();
+                break;
+                
+                case "chefs":
+                    if(count($request) > 1){
+                        echo json_encode($get->getChefs($request[1]));
+                    }
+                    else{
+                        echo json_encode($get->getChefs());
+                    }
+                break;
+                
+                default:
+                    http_response_code(401);
+                    echo "This is invalid endpoint";
+                break;
+            }
+        }
+        else {
+            echo "Unauthorized";
         }
 
     break;
