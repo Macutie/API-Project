@@ -1,5 +1,6 @@
 <?php
-class Get{
+include_once "Common.php";
+class Get extends Common{
 
     protected $pdo;
 
@@ -25,35 +26,33 @@ class Get{
     }
 
     public function getChefs($id = null){ //functions significant for your own database
-       $sqlString = "SELECT * FROM chefs_tbl WHERE isdeleted=0"; //select table from where you want to retrieve data.
+       $condition = "isdeleted = 0";
         if($id != null){
-            $sqlString .= " AND id=" . $id; 
+            $condition .= " AND id=" . $id; 
         }
 
-       $data = array();
-       $errmsg = "";
-       $code = 0;
-
-       try{
-        if($result = $this->pdo->query($sqlString)->fetchAll()){ //fetch all records to database from table. If the value is returned the if condition will be executed. All records will be stored in $result.
-            foreach($result as $record){ //looping all values inside result and all records will be pushed inside array_push
-                array_push($data, $record); //every record or iteration will be read inside the data array. Stored inside the data array.
-            }
-            $result = null;
-            $code = 200;
-            return array("code"=>$code, "data"=>$data); 
+        $result = $this->getDataByTable('chefs_tbl', $condition, $this->pdo);
+        if($result['code'] == 200){
+            return $this->generateResponse($result['data'], "success", "Sucessfully retrieved records.", $result['code']);
         }
         else{
-            $errmsg = "No data found";
-            $code = 404;
+            return $this->generateResponse(null, "failed", $result['errmsg'], $result['code']);
         }
-       }
-       catch(\PDOException $e){ //if there is an error in the query
-        $errmsg = $e->getMessage(); //store the error message
-        $code = 403; //store the error code
-       }
+    }
 
-       return array("code"=>$code, "errmsg"=>$errmsg); //responsible for returning error and successful record.
+    public function getMenu($id = null){ //functions significant for your own database
+        $condition = "isdeleted = 0"; //select table from where you want to retrieve data.
+         if($id != null){
+            $condition .= " AND id=" . $id; 
+        }
+
+        $result = $this->getDataByTable('menu_tbl', $condition, $this->pdo);
+        if($result['code'] == 200){
+            return $this->generateResponse($result['data'], "success", "Successfully retrieved records.", $result['code']);
+        }
+        else{
+            return $this->generateResponse(null, "failed", $result['errmsg'], $result['code']);
+        }
     }
 }
 ?>

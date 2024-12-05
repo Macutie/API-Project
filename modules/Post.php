@@ -1,5 +1,6 @@
 <?php
-class Post{
+include_once "Common.php";
+class Post extends Common{
 
     protected $pdo;
 
@@ -21,31 +22,24 @@ class Post{
     }
 
     public function postChefs($body){
-        $values = [];
-        $errmsg = "";
-        $code = 0;
-
-        foreach($body as $value){
-            array_push($values, $value);
+        $result = $this->postData("chefs_tbl", $body, $this->pdo);
+        if($result['code'] == 200){
+            return $this->generateResponse($result['data'], "success", "Sucessfully inserted a new record.", $result['code']);
         }
-
-        try{
-            $sqlString = "INSERT INTO chefs_tbl(fname, lname, position, isdeleted) VALUES (?,?,?,?)";
-            $sql = $this->pdo->prepare($sqlString);
-            $sql->execute($values);
-
-            $code = 200;
-            $data = null;
-
-            return array("data"=>$data, "code"=>$code);
+        else{
+            return $this->generateResponse(null, "failed", $result['errmsg'], $result['code']);
         }
-        catch(\PDOException $e){
-            $errmsg = $e->getMessage();
-            $code = 400;
-        }
-
-
-        return array("errmsg"=>$errmsg, "code"=>$code);
     }
+
+    public function postMenu($body){
+        $result = $this->postData("menu_tbl", $body, $this->pdo);
+        if($result['code'] == 200){
+            return $this->generateResponse($result['data'], "success", "Sucessfully inserted a new record.", $result['code']);
+        }
+        else{
+            return $this->generateResponse(null, "failed", $result['errmsg'], $result['code']);
+        }
+    }
+    
 }
 ?>
