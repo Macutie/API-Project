@@ -71,6 +71,10 @@ switch($_SERVER['REQUEST_METHOD']){
                     }
                 break;
 
+                case "log":
+                    echo json_encode($get->getLogs($request[1]));
+                break;
+
                 default:
                     http_response_code(401);
                     echo "This is invalid endpoint";

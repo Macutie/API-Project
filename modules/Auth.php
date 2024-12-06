@@ -100,8 +100,8 @@ class Authentication{
     }
 
     public function login($body){
-        $username = $body->username;
-        $password = $body->password;
+        $username = $body['username'];
+        $password = $body['password'];
 
         $code = 0;
         $payload = "";
@@ -154,7 +154,7 @@ class Authentication{
         $code = 0;
 
 
-        $body->password =  $this->encryptPassword($body->password);
+        $body['password'] = $this->encryptPassword($body['password']);
 
         foreach($body as $value){
             array_push($values, $value);

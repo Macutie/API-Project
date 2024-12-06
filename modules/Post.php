@@ -24,9 +24,11 @@ class Post extends Common{
     public function postChefs($body){
         $result = $this->postData("chefs_tbl", $body, $this->pdo);
         if($result['code'] == 200){
+            $this->logger("testthunder1234", "POST", "Created a new chef record");
             return $this->generateResponse($result['data'], "success", "Sucessfully inserted a new record.", $result['code']);
         }
         else{
+            $this->logger("testthunder1234", "POST", $result['errmsg']);
             return $this->generateResponse(null, "failed", $result['errmsg'], $result['code']);
         }
     }
@@ -34,9 +36,11 @@ class Post extends Common{
     public function postMenu($body){
         $result = $this->postData("menu_tbl", $body, $this->pdo);
         if($result['code'] == 200){
+            $this->logger("testthunder1234", "POST", "Created a new menu record");
             return $this->generateResponse($result['data'], "success", "Sucessfully inserted a new record.", $result['code']);
         }
         else{
+            $this->logger("testthunder1234", "POST", $result['errmsg']);
             return $this->generateResponse(null, "failed", $result['errmsg'], $result['code']);
         }
     }

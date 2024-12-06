@@ -8,6 +8,28 @@ class Get extends Common{
         $this->pdo = $pdo;
     }
     
+    public function getLogs($date){
+        $filename = "./logs/". $date . ".log";
+        // $file = file_get_contents("./logs/$filename"); // another version 
+        // $logs = explode(PHP_EOL, $file); // another version
+
+        $logs = array();
+        try{
+            $file = new SplFileObject($filename);
+            while(!$file->eof()){
+                array_push($logs, $file->fgets());
+            }
+            $remarks = "Success";
+            $message = "Successfully retrieved logs.";
+        }
+        catch(Exception $e){
+            $remarks = "Failed";
+            $message = $e->getMessage();
+        }
+
+        return $this->generateResponse(array("logs"=>$logs), $remarks, $message, 200);
+    }
+
     public function getStudents(){
         //code for retrieving data on DB
         return "This is some student records retrieved from db";
