@@ -2,7 +2,7 @@
     //meta data
     header("Access-Control-Allow-Origin: *"); //for sites request from client to allow anyone to send request for the API.
     header("Content-Type: application/json; charset=uft-8"); //type of file to be passed on the backend
-    header("Access-Control-Allow-Methods: POST, GET");
+    header("Access-Control-Allow-Methods: POST, GET, PATCH");
     header("Access-Control-Max-Age: 3600");
     // header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers"); //optional
 
@@ -12,6 +12,7 @@
     define("DBASE", "chefshub_db"); //name of your own database
     define("USER", "root"); //by default
     define("PWORD", ""); //by default
+    define("TOKEN_KEY", "dmcGlFEFWIrk82Ck7GYjNWWnFeqGkdqp");//define token key
 
     class Connection {
         protected $connectionString = "mysql:host=" . SERVER . ";dbname=" .DBASE. ";charset=utf8"; //concatenate host, database name.
